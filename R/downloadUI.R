@@ -10,7 +10,7 @@ downloadUI <- function(id){
       selectInput(
         inputId = "device",
         label = "Figure File Type:",
-        choices = c("jpeg", "png", "tiff"),
+        choices = c("jpeg", "png", "tiff". "pdf"),
         selected = "jpeg",
         multiple = FALSE
       ),
