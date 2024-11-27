@@ -1,4 +1,4 @@
-downloadUI <- function(id){
+downloadUI <- function(){
   tagList(
     column(
       width = 8,
