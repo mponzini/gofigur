@@ -96,17 +96,6 @@ ui <- shiny::navbarPage(
           "Plot Type",
           choices = c(" ", "Histogram", "Boxplot")
         ),
-        # common variable panels
-        selectInput(
-          inputId = "x_var",
-          label = "X Variable:",
-          choices = c(""), selected = NULL, multiple = FALSE
-        ),
-        selectInput(
-          inputId = "y_var",
-          label = "Y Variable:",
-          choices = c(""), selected = NULL, multiple = FALSE
-        ),
         # conditional panels
         parameter_tabs,
         # common axis/text panels

@@ -89,14 +89,36 @@ server <- function(input, output, session) {
     }
   )
   
-  # update input choices
-  observe({
-    if (!is.null(data())){
-      updateSelectInput(session, "x_var", choices=names(data()))
-      updateSelectInput(session, "y_var", choices=c(names(data()), NULL))
-      updateSelectInput(session, "box_by", choices=names(data()))
-    } 
+  plot_type <- reactive({
+    input$type
   })
+  
+  ## update input choices based on plot type? ##
+  # update x_var
+  shiny::observeEvent(
+    plot_type(), {
+      switch(
+        plot_type(),
+        Histogram = shiny::updateSelectInput(
+          session,
+          "x_var_hist",
+          choices = data_class() |>
+            dplyr::filter(Class %in% c('numeric', 'integer')) |>
+            dplyr::pull(Variable)
+        ),
+        Boxplot = shiny::updateSelectInput(
+          session,
+          'x_var_box',
+          choices = data_class() |>
+            dplyr::filter(Class %in% c('character', 'factor', 'logical')) |>
+            dplyr::pull(Variable)
+        )
+      )
+    }
+  )
+  # update y_var
+  
+  
   x_label <- reactive({
     ifelse(input$x_lab == "", paste(input$x_var), input$x_lab)
   })
@@ -108,7 +130,7 @@ server <- function(input, output, session) {
   # ggplot2 geom based on selected plot type
   plot_geom <- shiny::reactive({
     switch(
-      input$type,
+      plot_type(),
       Histogram = ggplot2::ggplot(
         data = data(),
         ggplot2::aes(
@@ -130,7 +152,9 @@ server <- function(input, output, session) {
     )
   })
   
+  
   output$plot <- shiny::renderPlot({
+    req(plot_geom())
     plot_geom() +
       ggplot2::labs(x = x_label(), y = y_label()) +
       ggplot2::theme_bw() +
