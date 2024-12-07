@@ -137,7 +137,8 @@ ui <- shiny::navbarPage(
         )
       ),
       shiny::mainPanel(
-        shiny::plotOutput("plot")
+        shiny::plotOutput("plot"),
+        downloadUI()
       )
     )
   )

@@ -127,35 +127,40 @@ server <- function(input, output, session) {
   })
   
   ## ggplot ##
+  # ggplot2 aes based on selected plot type
+  plot_aes <- shiny::reactive({
+    switch(
+      plot_type(),
+      Histogram = ggplot2::aes(
+        x = input$x_var_hist
+      ),
+      Boxplot = ggplot2::aes(
+        x = input$x_var_box,
+        y = input$y_var_box,
+        color = input$by_box
+      )
+    )
+  })
   # ggplot2 geom based on selected plot type
   plot_geom <- shiny::reactive({
     switch(
       plot_type(),
-      Histogram = ggplot2::ggplot(
-        data = data(),
-        ggplot2::aes(
-          x = .data[[input$x_var]]
-        )
-      ) +
-        ggplot2::geom_histogram(
+      Histogram = ggplot2::geom_histogram(
           bins = input$numb_bins,
           fill = input$hist_fill
         ),
-      Boxplot = ggplot2::ggplot(
-        data = data(),
-        ggplot2::aes(
-          x = .data[[input$x_var]],
-          y = .data[[input$y_var]]
-        )
-      ) +
-        ggplot2::geom_boxplot()
+      Boxplot = ggplot2::geom_boxplot()
     )
   })
   
   
   output$plot <- shiny::renderPlot({
     req(plot_geom())
-    plot_geom() +
+    ggplot2::ggplot(
+      data = data()
+    ) +
+      plot_aes() +
+      plot_geom() +
       ggplot2::labs(x = x_label(), y = y_label()) +
       ggplot2::theme_bw() +
       ggplot2::theme(
