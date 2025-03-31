@@ -1,20 +1,20 @@
-pacman::p_load(shiny, shinydashboard, ggplot2, cowplot, dplyr, tibble, tidyr,
-               readxl, haven, fresh, htmltools)
+## ui ##
+library(shiny)
 
-ui <- shiny::navbarPage(
+ui <- navbarPage(
   # add favicon to browser tab
-  # tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
+  tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
   # tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),
   # replace title with logo on navbar
   title = div(img(src="CTSC_Data_Loofah_Icon.png",
                   width = "90px", height = "60px")),
   # title in browser tab
-  windowTitle = "CTSC Self-Service Figures",
+  windowTitle = "CTSC Data Loofah",
   # adjust dimensions of navbar to accommodate logo
-  header = use_theme(
-    create_theme(
+  header = fresh::use_theme(
+    fresh::create_theme(
       theme = "default",
-      bs_vars_navbar(
+      fresh::bs_vars_navbar(
         height = "90px",
         margin_bottom = "15px",
         padding_vertical = "15px"
@@ -22,122 +22,53 @@ ui <- shiny::navbarPage(
       )
     )
   ),
-  # Landing panel with details on apps purpose and brief instructions #
-  shiny::tabPanel(
-    "Introduction",
+  
+  tabPanel(
+    "Intro",
     
-    shiny::fluidPage(
-      shiny::fluidRow(
-        htmltools::h3("Purpose"),
-        htmltools::p(
-          "The purpose of this tool is to ",
-          "allow investigators to generate basic/common figures."
-        ),
-        htmltools::h3("Instructions"),
-        htmltools::tags$ul(
-          htmltools::tags$li(
-            "To import your data go to the ", htmltools::tags$b("Data Import"),
-            " tab and click ", htmltools::tags$b("Browse"),
-            " to select your data file. If your data is stored",
-            " in an Excel file you can select the sheet to import from",
-            " the ", htmltools::tags$b("Sheet")," dropdown."
-          ),
-          htmltools::tags$li(
-            "Once your data is imported, a summary sentence and table ",
-            "will appear. The sentence summarizes the number of records",
-            " and variables in the data file. The table shows each ",
-            "variable in the data file and their class (",
-            "how the data are stored). Check that the variables are stored",
-            " as expected."
-          ),
-          htmltools::tags$li(
-            "Finally, go to the ", htmltools::tags$b("Figures"), 
-            " tab to construct your figure."
-          )
-        )
+    fluidPage(
+      fluidRow(
+        h3("Purpose"),
+        p("The purpose of this tool is to ",
+          "investigate the data and its quality prior to analysis. The ",
+          "goal is to catch data issues such as:")
       )
     )
   ),
-  # Panel for data import by browsing folders #
-  shiny::tabPanel(
+  
+  
+  tabPanel(
     "Data Import",
-    shiny::sidebarLayout(
-      shiny::sidebarPanel(
-        fileInput(
-          "upload", NULL, accept = c(".csv", ".xlsx", ".xls",
-                                     ".sas7bdat", ".sav",
-                                     ".dta", ".rds")
-        ),
-        shiny::selectInput('sheet', "Choose Sheet",  NULL)
-      ),
-      shiny::mainPanel(
-        shiny::fluidRow(
-          shiny::column(
-            11,
-            htmltools::p(shiny::textOutput("dataInfo"))
-          )
-        ),
-        shiny::fluidRow(
-          shiny::column(
-            11,
-            DT::dataTableOutput("info")
-          )
-        ),
-      )
-    )
+    importUI("import"),
+    dataUI("data")
   ),
-  # Panel to generate Figures
-  shiny::tabPanel(
+  
+  tabPanel(
     "Figure",
-    shiny::sidebarLayout(
-      shiny::sidebarPanel(
-        shiny::selectInput(
-          "type",
-          "Plot Type",
-          choices = c(" ", "Histogram", "Boxplot")
+    sidebarLayout(
+      sidebarPanel(
+        selectInput("type", "Plot Type", choices = c("Histogram", "Scatterplot", "Boxplot", "Barplot")),
+        conditionalPanel(
+          condition = 'input.type == "Histogram"',
+          histogramUI("hist")
         ),
-        # conditional panels
-        parameter_tabs,
-        # common axis/text panels
-        textInput(
-          inputId = "x_lab",
-          label = "X Axis Label:",
-          value = NULL
-          
+        conditionalPanel(
+          condition = 'input.type == "Scatterplot"',
+          scatterUI("scatter")
         ),
-        textInput(
-          inputId = "y_lab",
-          label = "Y Axis Label:",
-          value = NULL
-          
+        conditionalPanel(
+          condition = 'input.type == "Boxplot"',
+          boxUI("box")
         ),
-        numericInput(
-          inputId = "x_size",
-          label = "X Axis Text Size:",
-          value = 7,
-          min = 1
-        ),
-        numericInput(
-          inputId = "y_size",
-          label = "Y Axis Text Size:",
-          value = 7,
-          min = 1
-        ),
-        numericInput(
-          inputId = "x_title_size",
-          label = "X Axis Title Text Size:",
-          value = 10,
-          min = 1
-        ),
-        numericInput(
-          inputId = "y_title_size",
-          label = "Y Axis Title Text Size:",
-          value = 10,
-          min = 1
+        conditionalPanel(
+          condition = 'input.type == "Barplot"',
+          barUI("bar")
         )
+        # select.y.var.input("y.var"),
+        # select.by.var.input("by.var")
       ),
-      shiny::mainPanel(
-        shiny::plotOutput("plot"),
+      mainPanel(
+        plotOutput("plot"),
         downloadUI()
       )
     )
