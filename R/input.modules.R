@@ -1,22 +1,18 @@
 ## select input modules
 # ui
-
-#' @export
 select.x.var.input <- function(id) {
   selectInput(NS(id, "x.var"), "X Variable", choices = NULL)
 }
 
-#' @export
 select.y.var.input <- function(id) {
   selectInput(NS(id, "y.var"), "Y Variable", choices = NULL)
 }
 
-#' @export
 select.by.var.input <- function(id) {
   selectInput(NS(id, "by.var"), "By Variable", choices = NULL)
 }
-# server
-#' @export
+
+## server ##
 select.x.var.server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data(), {
@@ -28,7 +24,6 @@ select.x.var.server <- function(id, data) {
   })
 }
 
-#' @export
 select.y.var.server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data(), {
@@ -40,7 +35,6 @@ select.y.var.server <- function(id, data) {
   })
 }
 
-#' @export
 select.by.var.server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data(), {

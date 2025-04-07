@@ -1,6 +1,3 @@
-#' @title Histogram Module UI
-#' @export
-
 histogramUI <- function(id) {
   htmltools::tagList(
     select.x.var.input(NS(id, "x.var")),
@@ -73,9 +70,6 @@ histogramUI <- function(id) {
     # )
   )
 }
-
-#' @title Histogram Module Server
-#' @export
 
 histogramServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {

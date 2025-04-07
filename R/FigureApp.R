@@ -1,21 +1,6 @@
-#' @title Shiny App to generate Figures
-#' @description
-#' Use `FigureApp()` to run the self-service Figure App
-#' 
-#' @import dplyr
-#' @import tibble
-#' @import ggplot2
-#' @import openxlsx
-#' @import readxl
-#' @import DT
-#' @import haven
-#' @import shiny
-#' @import ggtext
-#' 
 #' @export
-#' 
 
-FigureApp <- function(...) {
+FigureApp <- function(){
   ui <- navbarPage(
     # add favicon to browser tab
     tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
@@ -24,11 +9,11 @@ FigureApp <- function(...) {
     title = div(img(src="CTSC_Data_Loofah_Icon.png",
                     width = "90px", height = "60px")),
     # title in browser tab
-    windowTitle = "CTSC Data Loofah",
+    windowTitle = "CTSC Figures",
     # adjust dimensions of navbar to accommodate logo
     header = fresh::use_theme(
       fresh::create_theme(
-        theme = "default",
+        theme = "cerulean",
         fresh::bs_vars_navbar(
           height = "90px",
           margin_bottom = "15px",
@@ -37,6 +22,7 @@ FigureApp <- function(...) {
         )
       )
     ),
+    # theme = shinythemes::shinytheme(theme = "cyborg"),
     
     tabPanel(
       "Intro",
@@ -44,9 +30,8 @@ FigureApp <- function(...) {
       fluidPage(
         fluidRow(
           h3("Purpose"),
-          p("The purpose of this tool is to ",
-            "investigate the data and its quality prior to analysis. The ",
-            "goal is to catch data issues such as:")
+          p("The purpose of this tool is to enable investigators to create ",
+            "high quality {ggplot2} figures without coding knowledge.")
         )
       )
     ),
@@ -105,6 +90,17 @@ FigureApp <- function(...) {
                      downloadUI()
                    )
                  )
+        ),
+        tabPanel("Provided",
+                 sidebarLayout(
+                   sidebarPanel(
+                     providedUI("provided")
+                   ),
+                   mainPanel(
+                     plotOutput("provided"),
+                     downloadUI()
+                   )
+                 )
         )
       )
     )
@@ -124,7 +120,9 @@ FigureApp <- function(...) {
     output$box <- boxServer("box", data = data, data_class = data_class)
     output$bar <- barServer("bar", data = data, data_class = data_class)
     output$scatter <- scatterServer("scatter", data = data, data_class = data_class)
+    output$provided <- providedServer("provided", data = data)
+    
   }
   
-  shinyApp(ui, server, ...)
+  shiny::shinyApp(ui = ui, server = server)
 }

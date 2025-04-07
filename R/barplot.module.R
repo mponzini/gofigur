@@ -1,6 +1,3 @@
-#' @title Barplot Module UI
-#' @export
-
 barUI <- function(id) {
   htmltools::tagList(
     select.x.var.input(NS(id, "x.var")),
@@ -61,9 +58,6 @@ barUI <- function(id) {
     )
   )
 }
-
-#' @title Barplot Module Server
-#' @export
 
 barServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
