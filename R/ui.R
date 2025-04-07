@@ -9,11 +9,11 @@ ui <- navbarPage(
   title = div(img(src="CTSC_Data_Loofah_Icon.png",
                   width = "90px", height = "60px")),
   # title in browser tab
-  windowTitle = "CTSC Data Loofah",
+  windowTitle = "CTSC Figure",
   # adjust dimensions of navbar to accommodate logo
   header = fresh::use_theme(
     fresh::create_theme(
-      theme = "default",
+      theme = "cyborg",
       fresh::bs_vars_navbar(
         height = "90px",
         margin_bottom = "15px",
@@ -22,6 +22,7 @@ ui <- navbarPage(
       )
     )
   ),
+  theme = shinythemes::shinytheme(theme = "cyborg"),
   
   tabPanel(
     "Intro",
@@ -29,15 +30,15 @@ ui <- navbarPage(
     fluidPage(
       fluidRow(
         h3("Purpose"),
-        p("The purpose of this tool is to ",
-          "investigate the data and its quality prior to analysis. The ",
-          "goal is to catch data issues such as:")
+        p("The purpose of this tool is to enable investigators to create ",
+          "high quality {ggplot2} figures without coding knowledge.")
       )
     )
   ),
   
   
   tabPanel(
+    theme = shinythemes::shinytheme(theme = "cerulean"),
     "Data Import",
     importUI("import"),
     dataUI("data")
@@ -47,7 +48,11 @@ ui <- navbarPage(
     "Figure",
     sidebarLayout(
       sidebarPanel(
-        selectInput("type", "Plot Type", choices = c("Histogram", "Scatterplot", "Boxplot", "Barplot")),
+        selectInput(
+          "type", 
+          "Plot Type", 
+          choices = c("Histogram", "Scatterplot", "Boxplot", "Barplot", "Provided")
+        ),
         conditionalPanel(
           condition = 'input.type == "Histogram"',
           histogramUI("hist")
@@ -63,6 +68,10 @@ ui <- navbarPage(
         conditionalPanel(
           condition = 'input.type == "Barplot"',
           barUI("bar")
+        ),
+        conditionalPanel(
+          condition = 'input.type == "Provided"',
+          providedUI("fig")
         )
         # select.y.var.input("y.var"),
         # select.by.var.input("by.var")

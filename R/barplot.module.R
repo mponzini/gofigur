@@ -83,6 +83,9 @@ barServer <- function(id, data, data_class) {
     
     # create tmp data for plot
     plot_data <- reactive({
+      shiny::req(data())
+      shiny::req(all(class(data()) != "gg"))
+      
       data() |> 
         dplyr::mutate(
           dplyr::across(

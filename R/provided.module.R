@@ -1,11 +1,8 @@
-#' @title Boxplot Module UI
+#' @title Provided Figure Module UI
 #' @export
 
-boxUI <- function(id) {
+providedUI <- function(id) {
   htmltools::tagList(
-    select.x.var.input(NS(id, "x.var")),
-    select.y.var.input(NS(id, "y.var")),
-    select.by.var.input(NS(id, "by.var")),
     textInput(
       inputId = NS(id, "x_lab"),
       label = "X-axis Label"
@@ -66,66 +63,36 @@ boxUI <- function(id) {
 #' @title Boxplot Module Server
 #' @export
 
-boxServer <- function(id, data, data_class) {
+providedServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
-    # select variable
-    x_var <- select.x.var.server("x.var", data)
-    y_var <- select.y.var.server("y.var", data)
-    by_var <- select.by.var.server("by.var", data)
     # Update axis labels
     x_label <- reactive({
-      ifelse(input$x_lab == "", paste(x_var()), input$x_lab)
+      shiny::req(data())
+      shiny::req(any(class(data()) != "gg"))
+      
+      ifelse(input$x_lab == "", data()$label$x, input$x_lab)
     })
     y_label <- reactive({
-      ifelse(input$y_lab == "", paste(y_var()), input$y_lab)
+      shiny::req(data())
+      shiny::req(any(class(data()) != "gg"))
+      
+      ifelse(input$y_lab == "", data()$label$y, input$y_lab)
     })
     by_label <- reactive({
-      ifelse(input$by_lab == "", paste(by_var()), input$by_lab)
-    })
-    
-    # create tmp data for plot
-    plot_data <- reactive({
       shiny::req(data())
-      shiny::req(all(class(data()) != "gg"))
+      shiny::req(any(class(data()) != "gg"))
       
-      data() |> 
-        dplyr::mutate(
-          dplyr::across(
-            .cols = dplyr::any_of(c(x_var(), by_var())),
-            ~ .x |> as.factor()
-          )
-        )
-    })
-    
-    # conditional aes
-    gg_aes <- reactive({
-      if (by_var() != "No group") {
-        ggplot2::aes(
-          x = .data[[x_var()]],
-          y = .data[[y_var()]],
-          color = .data[[by_var()]]
-        )
-      } else {
-        ggplot2::aes(
-          x = .data[[x_var()]],
-          y = .data[[y_var()]]
-        )
-      }
+      ifelse(input$by_lab == "", paste("Provide By Label"), input$by_lab)
     })
     
     
     # plot
     renderPlot({
-      plot_data() |> 
-        ggplot2::ggplot() +
-        gg_aes() +
-        ggplot2::geom_boxplot() +
+      data() +
         ggplot2::labs(
           x = x_label(),
-          y = y_label(),
-          color = by_label()
+          y = y_label()
         ) +
-        ggplot2::theme_bw() +
         ggplot2::theme(
           # x-axis
           axis.title.x = ggtext::element_markdown(
@@ -152,5 +119,3 @@ boxServer <- function(id, data, data_class) {
     })
   })
 }
-
-
