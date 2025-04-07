@@ -13,6 +13,52 @@ scatterUI <- function(id) {
     textInput(
       inputId = NS(id, "y_lab"),
       label = "Y-axis Label"
+    ),
+    textInput(
+      inputId = NS(id, "by_lab"),
+      label = "Legend Label"
+    ),
+    numericInput(
+      inputId = NS(id, "x_lab_size"),
+      label = "X-axis Label Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
+    ),
+    numericInput(
+      inputId = NS(id, "x_text_size"),
+      label = "X-axis Text Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
+    ),
+    numericInput(
+      inputId = NS(id, "y_lab_size"),
+      label = "Y-axis Label Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
+    ),
+    numericInput(
+      inputId = NS(id, "y_text_size"),
+      label = "Y-axis Text Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
+    ),
+    numericInput(
+      inputId = NS(id, "by_lab_size"),
+      label = "Legend Label Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
+    ),
+    numericInput(
+      inputId = NS(id, "by_text_size"),
+      label = "Legend Text Font Size",
+      value = 14,
+      min = 1,
+      step = 0.5
     )
   )
 }
@@ -33,32 +79,72 @@ scatterServer <- function(id, data, data_class) {
     y_label <- reactive({
       ifelse(input$y_lab == "", paste(y_var()), input$y_lab)
     })
-    # axis title and text size
-    # x_text <- reactive({ifelse(input$x_text )})
-    # y_text
-    # x_title
-    # y_title
+    by_label <- reactive({
+      ifelse(input$by_lab == "", paste(by_var()), input$by_lab)
+    })
+    
+    # create tmp data for plot
+    plot_data <- reactive({
+      data() |> 
+        dplyr::mutate(
+          dplyr::across(
+            .cols = dplyr::any_of(c(by_var())),
+            ~ .x |> as.factor()
+          )
+        )
+    })
+    
+    # conditional aes
+    gg_aes <- reactive({
+      if (by_var() != "No group") {
+        ggplot2::aes(
+          x = .data[[x_var()]],
+          y = .data[[y_var()]],
+          color = .data[[by_var()]]
+        )
+      } else {
+        ggplot2::aes(
+          x = .data[[x_var()]],
+          y = .data[[y_var()]]
+        )
+      }
+    })
+
     
     # plot
     renderPlot({
-      data() |> 
+      plot_data() |> 
         ggplot2::ggplot() +
-        ggplot2::aes(
-          x = !!rlang::sym(x_var()),
-          y = !!rlang::sym(y_var()),
-          color = !!rlang::sym(by_var())
-        ) +
+        gg_aes() +
         ggplot2::geom_point() +
         ggplot2::labs(
           x = x_label(),
-          y = y_label()
+          y = y_label(),
+          color = by_label()
         ) +
         ggplot2::theme_bw() +
         ggplot2::theme(
-          axis.text.x = ggtext::element_markdown(),
-          axis.text.y = ggtext::element_markdown(),
-          axis.title.x = ggtext::element_markdown(),
-          axis.title.y = ggtext::element_markdown()
+          # x-axis
+          axis.title.x = ggtext::element_markdown(
+            size = input$x_lab_size
+          ),
+          axis.text.x = ggtext::element_markdown(
+            size = input$x_text_size
+          ),
+          # y-axis
+          axis.title.y = ggtext::element_markdown(
+            size = input$y_lab_size
+          ),
+          axis.text.y = ggtext::element_markdown(
+            size = input$y_text_size
+          ),
+          # legend
+          legend.title = ggtext::element_markdown(
+            size = input$by_lab_size
+          ),
+          legend.text = ggtext::element_markdown(
+            size = input$by_text_size
+          )
         )
     })
   })
