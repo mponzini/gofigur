@@ -32,6 +32,8 @@ server <- function(input, output, session) {
       boxServer("box", data = data, data_class = data_class)
     } else if (input$type == "Barplot") {
       barServer("bar", data = data, data_class = data_class)
+    } else if (input$type == "Provided") {
+      providedServer("fig", data = data)
     }
   })
   
