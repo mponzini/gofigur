@@ -1,6 +1,3 @@
-#' @title Boxplot Module UI
-#' @export
-
 boxUI <- function(id) {
   htmltools::tagList(
     select.x.var.input(NS(id, "x.var")),
@@ -62,9 +59,6 @@ boxUI <- function(id) {
     )
   )
 }
-
-#' @title Boxplot Module Server
-#' @export
 
 boxServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {

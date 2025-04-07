@@ -1,6 +1,3 @@
-#' @title Scatterplot Module UI
-#' @export
-
 scatterUI <- function(id) {
   htmltools::tagList(
     select.x.var.input(NS(id, "x.var")),
@@ -62,9 +59,6 @@ scatterUI <- function(id) {
     )
   )
 }
-
-#' @title Scatterplot Module Server
-#' @export
 
 scatterServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {

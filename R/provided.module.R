@@ -1,6 +1,3 @@
-#' @title Provided Figure Module UI
-#' @export
-
 providedUI <- function(id) {
   htmltools::tagList(
     textInput(
@@ -59,9 +56,6 @@ providedUI <- function(id) {
     )
   )
 }
-
-#' @title Boxplot Module Server
-#' @export
 
 providedServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
