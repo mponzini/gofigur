@@ -22,7 +22,7 @@ dataServer <- function(id, data) {
     # Display message to import data file or summary of data file (nrow, ncol)
     data_info <- reactive({
       if ((!is.null(data())) & any(class(data()) == "gg")){
-        test <- "The data is a {ggplot2} figure object."
+        text <- paste0("The import is a {ggplot2} figure object.")
       } else if ((!is.null(data())) & all(class(data()) != "gg")) {
           text <- paste0(
             "The data has ", nrow(data()), " rows and ", ncol(data()),
@@ -48,6 +48,11 @@ dataServer <- function(id, data) {
         data.frame(
           "Variable" = colnames(data()),
           "Class" = sapply(1:ncol(data()), function(x){class(data()[[x]])})
+        )
+      } else if ((!is.null(data())) & any(class(data()) == "gg")) {
+        data.frame(
+          "Variable" = "import",
+          "Class" = "ggplot object"
         )
       }
     })
