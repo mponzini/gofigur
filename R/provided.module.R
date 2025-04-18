@@ -38,6 +38,9 @@ providedServer <- function(id, data) {
     
     # plot
     plot <- reactive({
+      shiny::req(data())
+      shiny::req(any(class(data()) != "gg"))
+      
       data() +
         ggplot2::labs(
           x = x_label(),

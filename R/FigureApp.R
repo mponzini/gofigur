@@ -1,3 +1,4 @@
+#' @title Figure Shiny App
 #' @export
 
 FigureApp <- function(){
