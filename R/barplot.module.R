@@ -1,60 +1,16 @@
 barUI <- function(id) {
-  htmltools::tagList(
-    select.x.var.input(NS(id, "x.var")),
-    select.by.var.input(NS(id, "by.var")),
-    textInput(
-      inputId = NS(id, "x_lab"),
-      label = "X-axis Label"
-    ),
-    textInput(
-      inputId = NS(id, "y_lab"),
-      label = "Y-axis Label"
-    ),
-    textInput(
-      inputId = NS(id, "by_lab"),
-      label = "Legend Label"
-    ),
-    numericInput(
-      inputId = NS(id, "x_lab_size"),
-      label = "X-axis Label Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
-    ),
-    numericInput(
-      inputId = NS(id, "x_text_size"),
-      label = "X-axis Text Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
-    ),
-    numericInput(
-      inputId = NS(id, "y_lab_size"),
-      label = "Y-axis Label Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
-    ),
-    numericInput(
-      inputId = NS(id, "y_text_size"),
-      label = "Y-axis Text Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
-    ),
-    numericInput(
-      inputId = NS(id, "by_lab_size"),
-      label = "Legend Label Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
-    ),
-    numericInput(
-      inputId = NS(id, "by_text_size"),
-      label = "Legend Text Font Size",
-      value = 14,
-      min = 1,
-      step = 0.5
+  tabPanel(
+    "Barplot",
+    sidebarLayout(
+      sidebarPanel(
+        select.x.var.input(NS(id, "x.var")),
+        select.by.var.input(NS(id, "by.var")),
+        labels_and_fonts("bar")
+      ),
+      mainPanel(
+        plotOutput(NS(id, "bar")),
+        downloadUI("bar")
+      )
     )
   )
 }
@@ -104,7 +60,7 @@ barServer <- function(id, data, data_class) {
     })
     
     # plot
-    renderPlot({
+    plot <- reactive({
       plot_data() |> 
         ggplot2::ggplot() +
         gg_aes() +
@@ -139,5 +95,25 @@ barServer <- function(id, data, data_class) {
           )
         )
     })
+    
+    output$bar <- renderPlot({plot()})
+    
+    # download handler
+    output$downloadPlot <- downloadHandler(
+      filename = function(file) {
+        paste(input$plot_name, input$plot_device, sep = ".")
+      },
+      content = function(file) {
+        ggplot2::ggsave(
+          file,
+          ,
+          plot = plot(),
+          width = input$plot_width,
+          height = input$plot_height,
+          dpi = input$plot_dpi,
+          device = input$plot_device
+        )
+      }
+    )
   })
 }
