@@ -47,63 +47,13 @@ FigureApp <- function(){
       "Figure",
       tabsetPanel(
         id = "Figure Type",
-        tabPanel("Histogram",
-                 sidebarLayout(
-                   sidebarPanel(
-                     histogramUI("hist")
-                   ),
-                   mainPanel(
-                     plotOutput("hist"),
-                     downloadUI()
-                   )
-                 )
-        ),
-        tabPanel("Scatterplot",
-                 sidebarLayout(
-                   sidebarPanel(
-                     scatterUI("scatter")
-                   ),
-                   mainPanel(
-                     plotOutput("scatter"),
-                     downloadUI()
-                   )
-                 )
-        ),
-        tabPanel("Boxplot",
-                 sidebarLayout(
-                   sidebarPanel(
-                     boxUI("box")
-                   ),
-                   mainPanel(
-                     plotOutput("box"),
-                     downloadUI()
-                   )
-                 )
-        ),
-        tabPanel("Barplot",
-                 sidebarLayout(
-                   sidebarPanel(
-                     barUI("bar")
-                   ),
-                   mainPanel(
-                     plotOutput("bar"),
-                     downloadUI()
-                   )
-                 )
-        ),
-        tabPanel("Provided",
-                 sidebarLayout(
-                   sidebarPanel(
-                     providedUI("provided")
-                   ),
-                   mainPanel(
-                     plotOutput("provided"),
-                     downloadUI()
-                   )
-                 )
+        histogramUI("hist"),
+        scatterUI("scatter"),
+        boxUI("box"),
+        barUI("bar"),
+        providedUI("provided")
         )
       )
-    )
   )
   
   server <- function(input, output, session) {
@@ -116,11 +66,11 @@ FigureApp <- function(){
       }
     })
     
-    output$hist <- histogramServer("hist", data = data, data_class = data_class)
-    output$box <- boxServer("box", data = data, data_class = data_class)
-    output$bar <- barServer("bar", data = data, data_class = data_class)
-    output$scatter <- scatterServer("scatter", data = data, data_class = data_class)
-    output$provided <- providedServer("provided", data = data)
+    histogramServer("hist", data = data, data_class = data_class)
+    boxServer("box", data = data, data_class = data_class)
+    barServer("bar", data = data, data_class = data_class)
+    scatterServer("scatter", data = data, data_class = data_class)
+    providedServer("provided", data = data)
     
   }
   
