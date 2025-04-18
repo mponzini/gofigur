@@ -101,7 +101,7 @@ boxServer <- function(id, data, data_class) {
         )
     })
     
-    output$box <- renderPlot{(plot())}
+    output$box <- renderPlot({plot()})
     
     # download handler
     output$downloadPlot <- downloadHandler(

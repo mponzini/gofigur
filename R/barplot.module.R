@@ -4,7 +4,6 @@ barUI <- function(id) {
     sidebarLayout(
       sidebarPanel(
         select.x.var.input(NS(id, "x.var")),
-        select.y.var.input(NS(id, "y.var")),
         select.by.var.input(NS(id, "by.var")),
         labels_and_fonts("bar")
       ),
