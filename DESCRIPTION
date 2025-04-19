@@ -11,10 +11,14 @@ License: What license is it under?
 Imports: 
     config (>= 0.3.2),
     dplyr,
+    DT,
+    fresh,
     ggplot2,
     ggtext,
     golem (>= 0.4.1),
+    haven,
     htmltools,
+    readxl,
     shiny
 Encoding: UTF-8
 LazyData: true
