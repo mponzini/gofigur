@@ -2,3 +2,13 @@
 
 export(FigureApp)
 export(downloadUI)
+export(select.by.var.input)
+export(select.by.var.server)
+export(select.event.var.input)
+export(select.event.var.server)
+export(select.time.var.input)
+export(select.time.var.server)
+export(select.x.var.input)
+export(select.x.var.server)
+export(select.y.var.input)
+export(select.y.var.server)

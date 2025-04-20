@@ -52,6 +52,7 @@ FigureApp <- function(){
         scatterUI("scatter"),
         boxUI("box"),
         barUI("bar"),
+        kmUI("km"),
         providedUI("provided")
         )
       )
@@ -71,6 +72,7 @@ FigureApp <- function(){
     boxServer("box", data = data, data_class = data_class)
     barServer("bar", data = data, data_class = data_class)
     scatterServer("scatter", data = data, data_class = data_class)
+    kmServer("km", data = data, data_class = data_class)
     providedServer("provided", data = data)
     
   }

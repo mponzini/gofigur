@@ -19,7 +19,9 @@ Imports:
     haven,
     htmltools,
     readxl,
-    shiny
+    shiny,
+    survival,
+    survminer
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
