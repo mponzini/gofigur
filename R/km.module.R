@@ -177,7 +177,7 @@ kmServer <- function(id, data, data_class) {
         ggplot2::ggsave(
           file,
           ,
-          plot = p(),
+          plot = p()$plot,
           width = input$plot_width,
           height = input$plot_height,
           dpi = input$plot_dpi,
