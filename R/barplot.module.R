@@ -1,6 +1,6 @@
 barUI <- function(id) {
   tabPanel(
-    "Barplot",
+    "Barplot - Frequencies",
     sidebarLayout(
       sidebarPanel(
         select.x.var.input(NS(id, "x.var")),
