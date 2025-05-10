@@ -40,9 +40,9 @@ kmUI <- function(id) {
 kmServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select x and by variables
-    time_var <- select.time.var.server("time.var", data)
-    event_var <- select.event.var.server("event.var", data)
-    by_var <- select.by.var.server("by.var", data)
+    time_var <- select.time.var.server("time.var", data_class, "numeric")
+    event_var <- select.event.var.server("event.var", data_class)
+    by_var <- select.by.var.server("by.var", data_class)
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(time_var()), input$x_lab)

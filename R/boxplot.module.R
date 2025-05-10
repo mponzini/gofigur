@@ -19,9 +19,9 @@ boxUI <- function(id) {
 boxServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select variable
-    x_var <- select.x.var.server("x.var", data)
-    y_var <- select.y.var.server("y.var", data)
-    by_var <- select.by.var.server("by.var", data)
+    x_var <- select.x.var.server("x.var", data_class)
+    y_var <- select.y.var.server("y.var", data_class, "numeric")
+    by_var <- select.by.var.server("by.var", data_class)
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(x_var()), input$x_lab)

@@ -27,10 +27,15 @@ select.event.var.input <- function(id) {
 }
 # server
 #' @export
-select.x.var.server <- function(id, data) {
+select.x.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "x.var", choices = colnames(data()))
+    observeEvent(data_class(), {
+      updateSelectInput(
+        session, "x.var", 
+        choices = data_class() |> 
+          dplyr::filter(Class %in% filter) |> 
+          dplyr::pull(Variable)
+      )
     })
     
     reactive(input$x.var)
@@ -39,10 +44,15 @@ select.x.var.server <- function(id, data) {
 }
 
 #' @export
-select.y.var.server <- function(id, data) {
+select.y.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "y.var", choices = colnames(data()))
+    observeEvent(data_class(), {
+      updateSelectInput(
+        session, "y.var", 
+        choices = data_class() |> 
+          dplyr::filter(Class %in% filter) |> 
+          dplyr::pull(Variable)
+      )
     })
     
     reactive(input$y.var)
@@ -51,10 +61,17 @@ select.y.var.server <- function(id, data) {
 }
 
 #' @export
-select.by.var.server <- function(id, data) {
+select.by.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "by.var", choices = c("No group", colnames(data())))
+    observeEvent(data_class(), {
+      updateSelectInput(
+        session, "by.var", choices = 
+          c("No group", 
+            data_class() |> 
+              dplyr::filter(Class %in% filter) |> 
+              dplyr::pull(Variable)
+          )
+      )
     })
     
     reactive(input$by.var)
@@ -63,10 +80,15 @@ select.by.var.server <- function(id, data) {
 }
 
 #' @export
-select.time.var.server <- function(id, data) {
+select.time.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "time.var", choices = colnames(data()))
+    observeEvent(data_class(), {
+      updateSelectInput(
+        session, "time.var", 
+        choices = data_class() |> 
+          dplyr::filter(Class %in% filter) |> 
+          dplyr::pull(Variable)
+      )
     })
     
     reactive(input$time.var)
@@ -75,10 +97,15 @@ select.time.var.server <- function(id, data) {
 }
 
 #' @export
-select.event.var.server <- function(id, data) {
+select.event.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "event.var", choices = colnames(data()))
+    observeEvent(data_class(), {
+      updateSelectInput(
+        session, "event.var", 
+        choices = data_class() |> 
+          dplyr::filter(Class %in% filter) |> 
+          dplyr::pull(Variable)
+      )
     })
     
     reactive(input$event.var)

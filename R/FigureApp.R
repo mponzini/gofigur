@@ -8,7 +8,7 @@ colorblind_palette <- c(
 
 options(
   ggplot2.discrete.fill = colorblind_palette,
-  ggplot2.discrete.color = colorblind_palette
+  ggplot2.discrete.colour = colorblind_palette
 )
 
 FigureApp <- function(){
