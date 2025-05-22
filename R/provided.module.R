@@ -37,7 +37,7 @@ providedServer <- function(id, data) {
       data()
     })
     
-    plot_data()$labels <- new_labels()
+    # plot_data()$labels <- new_labels()
     
     
     # plot
