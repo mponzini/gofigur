@@ -1,4 +1,4 @@
-Package: self.service.figures
+Package: gofigur
 Title: An Amazing Shiny App
 Version: 0.0.0.9001
 Authors@R: 
@@ -13,15 +13,16 @@ Imports:
     dplyr,
     DT,
     fresh,
-    ggplot2,
+    ggplot2 (>= 3.5),
     ggtext,
     golem (>= 0.4.1),
     haven,
     htmltools,
     readxl,
-    shiny,
     survival,
     survminer
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
+Depends: 
+    shiny

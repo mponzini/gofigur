@@ -12,7 +12,7 @@ options(
 )
 
 FigureApp <- function(){
-  ui <- navbarPage(
+  ui <- shiny::navbarPage(
     # add favicon to browser tab
     tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
     # tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),

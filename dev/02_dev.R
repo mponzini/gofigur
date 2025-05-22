@@ -46,7 +46,7 @@ usethis::use_test("app")
 # Documentation
 
 ## Vignette ----
-usethis::use_vignette("self.service.figures")
+usethis::use_vignette("gofigur")
 devtools::build_vignettes()
 
 ## Code Coverage----
