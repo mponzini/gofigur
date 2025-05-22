@@ -15,38 +15,35 @@ providedUI <- function(id) {
 
 providedServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
+    # extract labels to generate appropriate 'Label' UI fields
+    map_labels <- reactive({
+      shiny::req(data())
+      
+      data()$labels |> names()
+    })
+    
     # Update axis labels
     x_label <- reactive({
-
-      
       ifelse(input$x_lab == "", data()$label$x, input$x_lab)
     })
     y_label <- reactive({
-
-      
       ifelse(input$y_lab == "", data()$label$y, input$y_lab)
     })
-    by_label <- reactive({
-
-      
-      ifelse(input$by_lab == "", paste("Provide By Label"), input$by_lab)
-    })
     
-    # does the figure have a legend? if so, which aesthetic?
-    mappings <- shiny::reactive({
+    # update the 'labels' list in the plot data
+    plot_data <- reactive({
       shiny::req(data())
       
-      data()$mapping |> names()
+      data()
     })
+    
+    plot_data()$labels <- new_labels()
+    
     
     # plot
     plot <- reactive({
       if (any(class(data()) == "gg")) {
-        data() +
-          ggplot2::labs(
-            x = x_label(),
-            y = y_label()
-          ) +
+        plot_data() +
           ggplot2::theme(
             # x-axis
             axis.title.x = ggtext::element_markdown(
@@ -72,9 +69,10 @@ providedServer <- function(id, data) {
           )
       } else {
         ggplot2::ggplot() +
-          ggplot2::aes(x = 1,
-                       y = 1,
-                       label = "Upload a saved {ggplot2} figure to utilize this panel"
+          ggplot2::aes(
+            x = 1,
+            y = 1,
+            label = "Upload a saved {ggplot2} figure to utilize this panel"
           ) +
           ggplot2::geom_text(size = 6) +
           ggplot2::theme_void()
