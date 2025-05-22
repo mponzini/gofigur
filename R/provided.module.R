@@ -31,7 +31,14 @@ providedServer <- function(id, data) {
       
       ifelse(input$by_lab == "", paste("Provide By Label"), input$by_lab)
     })
-
+    
+    # does the figure have a legend? if so, which aesthetic?
+    mappings <- shiny::reactive({
+      shiny::req(data())
+      
+      data()$mapping |> names()
+    })
+    
     # plot
     plot <- reactive({
       if (any(class(data()) == "gg")) {
