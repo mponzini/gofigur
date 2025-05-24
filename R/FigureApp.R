@@ -1,17 +1,18 @@
 #' @title Figure Shiny App
 #' @export
 
-colorblind_palette <- c(
-  "#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
-  "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888"
-)
-
-options(
-  ggplot2.discrete.fill = colorblind_palette,
-  ggplot2.discrete.colour = colorblind_palette
-)
-
 FigureApp <- function(){
+  
+  colorblind_palette <- c(
+    "#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
+    "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888"
+  )
+  
+  options(
+    ggplot2.discrete.fill = colorblind_palette,
+    ggplot2.discrete.colour = colorblind_palette
+  )
+  
   ui <- shiny::navbarPage(
     # add favicon to browser tab
     tags$head(tags$link(rel="shortcut icon", href="favicon.png")),

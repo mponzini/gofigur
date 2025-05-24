@@ -17,7 +17,9 @@ Imports:
     ggtext,
     golem (>= 0.4.1),
     haven,
+    Hmisc,
     htmltools,
+    purrr,
     readxl,
     survival,
     survminer
