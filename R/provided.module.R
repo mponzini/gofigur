@@ -3,11 +3,13 @@ providedUI <- function(id) {
     "Provided",
     sidebarLayout(
       sidebarPanel(
-        labels_and_fonts("provided", by = TRUE)
+        uiOutput(NS(id, "label_ui")),
+        fonts("provided", by = TRUE)
       ),
       mainPanel(
         plotOutput(NS(id, "provided")),
-        downloadUI("provided")
+        downloadUI("provided"),
+        textOutput(NS(id, "test"))
       )
     )
   )
@@ -15,38 +17,61 @@ providedUI <- function(id) {
 
 providedServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
-    # Update axis labels
-    x_label <- reactive({
-
-      
-      ifelse(input$x_lab == "", data()$label$x, input$x_lab)
-    })
-    y_label <- reactive({
-
-      
-      ifelse(input$y_lab == "", data()$label$y, input$y_lab)
-    })
-    by_label <- reactive({
-
-      
-      ifelse(input$by_lab == "", paste("Provide By Label"), input$by_lab)
-    })
-    
-    # does the figure have a legend? if so, which aesthetic?
-    mappings <- shiny::reactive({
+    # extract labels to generate appropriate 'Label' UI fields
+    map_labels <- reactive({
       shiny::req(data())
       
-      data()$mapping |> names()
+      data()$labels
     })
+    
+    map_labels_names <- reactive({
+      shiny::req(data())
+      
+      map_labels() |> names()
+    })
+    
+    # generate UI
+    output$label_ui <- renderUI({
+      purrr::map(
+        map_labels_names(), 
+        function(x) {
+          textInput(
+            inputId = NS(id, x),
+            label = paste(Hmisc::capitalize(x), "Label", sep = " "),
+            value = map_labels()[[x]]
+          )
+        }
+      )
+    })
+    
+    # extract new Labels
+    new_labels <- reactive({
+      tmp <- purrr::map(
+        map_labels_names(),
+        function(x) input[[x]]
+      )
+      
+      names(tmp) <- map_labels_names()
+      
+      tmp
+    })
+    
+    # update the 'labels' list in the plot data
+    plot_data <- reactive({
+      shiny::req(data())
+      
+      tmp_data <- data()
+      
+      tmp_data$labels <- new_labels()
+      
+      tmp_data
+    })
+    
     
     # plot
     plot <- reactive({
       if (any(class(data()) == "gg")) {
-        data() +
-          ggplot2::labs(
-            x = x_label(),
-            y = y_label()
-          ) +
+        plot_data() +
           ggplot2::theme(
             # x-axis
             axis.title.x = ggtext::element_markdown(
@@ -72,9 +97,10 @@ providedServer <- function(id, data) {
           )
       } else {
         ggplot2::ggplot() +
-          ggplot2::aes(x = 1,
-                       y = 1,
-                       label = "Upload a saved {ggplot2} figure to utilize this panel"
+          ggplot2::aes(
+            x = 1,
+            y = 1,
+            label = "Upload a saved {ggplot2} figure to utilize this panel"
           ) +
           ggplot2::geom_text(size = 6) +
           ggplot2::theme_void()
