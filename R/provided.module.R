@@ -37,7 +37,7 @@ providedServer <- function(id, data) {
         function(x) {
           textInput(
             inputId = NS(id, x),
-            label = paste(x, "Label", sep = " "),
+            label = paste(Hmisc::capitalize(x), "Label", sep = " "),
             value = map_labels()[[x]]
           )
         }
