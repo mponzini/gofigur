@@ -3,11 +3,13 @@ providedUI <- function(id) {
     "Provided",
     sidebarLayout(
       sidebarPanel(
-        labels_and_fonts("provided", by = TRUE)
+        uiOutput(NS(id, "label_ui")),
+        fonts("provided", by = TRUE)
       ),
       mainPanel(
         plotOutput(NS(id, "provided")),
-        downloadUI("provided")
+        downloadUI("provided"),
+        textOutput(NS(id, "test"))
       )
     )
   )
@@ -19,25 +21,51 @@ providedServer <- function(id, data) {
     map_labels <- reactive({
       shiny::req(data())
       
-      data()$labels |> names()
+      data()$labels
     })
     
-    # Update axis labels
-    x_label <- reactive({
-      ifelse(input$x_lab == "", data()$label$x, input$x_lab)
+    map_labels_names <- reactive({
+      shiny::req(data())
+      
+      map_labels() |> names()
     })
-    y_label <- reactive({
-      ifelse(input$y_lab == "", data()$label$y, input$y_lab)
+    
+    # generate UI
+    output$label_ui <- renderUI({
+      purrr::map(
+        map_labels_names(), 
+        function(x) {
+          textInput(
+            inputId = NS(id, x),
+            label = paste(x, "Label", sep = " "),
+            value = map_labels()[[x]]
+          )
+        }
+      )
+    })
+    
+    # extract new Labels
+    new_labels <- reactive({
+      tmp <- purrr::map(
+        map_labels_names(),
+        function(x) input[[x]]
+      )
+      
+      names(tmp) <- map_labels_names()
+      
+      tmp
     })
     
     # update the 'labels' list in the plot data
     plot_data <- reactive({
       shiny::req(data())
       
-      data()
+      tmp_data <- data()
+      
+      tmp_data$labels <- new_labels()
+      
+      tmp_data
     })
-    
-    # plot_data()$labels <- new_labels()
     
     
     # plot
