@@ -1,2 +1,2 @@
-# self-service-figures
+# GoFiguR
 Shiny App for Investigators to Create Figures
