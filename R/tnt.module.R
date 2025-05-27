@@ -126,6 +126,7 @@ tntServer <- function(id, data, data_class) {
       }
     })
     
+    
     # plot
     plot <- reactive({
       plot_data() |> 
