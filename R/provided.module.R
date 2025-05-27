@@ -4,7 +4,13 @@ providedUI <- function(id) {
     sidebarLayout(
       sidebarPanel(
         uiOutput(NS(id, "label_ui")),
-        fonts("provided", by = TRUE)
+        fonts("provided", by = TRUE),
+        selectInput(
+          NS(id, "theme"),
+          label = "Plot Theme",
+          choices = c("Default", "Black and White", "Classic"),
+          selected = NULL
+        )
       ),
       mainPanel(
         plotOutput(NS(id, "provided")),
@@ -66,11 +72,22 @@ providedServer <- function(id, data) {
       tmp_data
     })
     
+    # process theme
+    user_theme <- reactive({
+      if (input$theme == "Default") {
+        ggplot2::theme()
+      } else if (input$theme == "Black and White") {
+        ggplot2::theme_bw()
+      } else if (input$theme == "Classic") {
+        ggplot2::theme_classic()
+      }
+    })
     
     # plot
     plot <- reactive({
       if (any(class(data()) == "gg")) {
         plot_data() +
+          user_theme() +
           ggplot2::theme(
             # x-axis
             axis.title.x = ggtext::element_markdown(
