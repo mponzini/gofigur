@@ -21,7 +21,7 @@ FigureApp <- function(){
     title = div(img(src="CTSC_Data_Loofah_Icon.png",
                     width = "90px", height = "60px")),
     # title in browser tab
-    windowTitle = "CTSC Figures",
+    windowTitle = "GoFiguR",
     # adjust dimensions of navbar to accommodate logo
     header = fresh::use_theme(
       fresh::create_theme(
