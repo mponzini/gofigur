@@ -118,7 +118,7 @@ kmServer <- function(id, data, data_class) {
     })
     
     # plot
-    p <- reactive({
+    plot <- reactive({
       survminer::ggsurvplot(
         fit = km_fit(),
         data = plot_data(),
@@ -166,7 +166,7 @@ kmServer <- function(id, data, data_class) {
       #   )
     })
     
-    output$km <- renderPlot({p()})
+    output$km <- renderPlot({plot()})
     
     # download handler
     opts <- reactive({
@@ -221,7 +221,7 @@ kmServer <- function(id, data, data_class) {
           ggplot2::ggsave(
             file,
             ,
-            plot = plot(),
+            plot = plot()$plot,
             width = input$plot_width,
             height = input$plot_height,
             dpi = input$plot_dpi,
