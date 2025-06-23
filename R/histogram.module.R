@@ -3,7 +3,7 @@ histogramUI <- function(id) {
     "Histogram",
     sidebarLayout(
       sidebarPanel(
-        select.x.var.input(NS(id, "x.var")),
+        select_x.var.input(NS(id, "x.var")),
         numericInput(
           inputId = NS(id, "numb_bins"),
           label = "Number of Bins:",
@@ -30,7 +30,7 @@ histogramUI <- function(id) {
 histogramServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select x var
-    x_var <- select.x.var.server("x.var", data_class, "numeric")
+    x_var <- select_x.var.server("x.var", data_class, "numeric")
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(input$x_var), input$x_lab)

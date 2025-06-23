@@ -3,9 +3,9 @@ scatterUI <- function(id) {
     "Scatterplot",
     sidebarLayout(
       sidebarPanel(
-        select.x.var.input(NS(id, "x.var")),
-        select.y.var.input(NS(id, "y.var")),
-        select.by.var.input(NS(id, "by.var")),
+        select_x.var.input(NS(id, "x.var")),
+        select_y.var.input(NS(id, "y.var")),
+        select_by.var.input(NS(id, "by.var")),
         labels_and_fonts("scatter", by = TRUE)
       ),
       mainPanel(
@@ -19,9 +19,9 @@ scatterUI <- function(id) {
 scatterServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select variables
-    x_var <- select.x.var.server("x.var", data_class, "numeric")
-    y_var <- select.y.var.server("y.var", data_class, "numeric")
-    by_var <- select.by.var.server("by.var", data_class)
+    x_var <- select_x.var.server("x.var", data_class, "numeric")
+    y_var <- select_y.var.server("y.var", data_class, "numeric")
+    by_var <- select_by.var.server("by.var", data_class)
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(x_var()), input$x_lab)

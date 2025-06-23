@@ -3,9 +3,9 @@ kmUI <- function(id) {
     "Kaplan-Meier Curve",
     sidebarLayout(
       sidebarPanel(
-        select.time.var.input(NS(id, "time.var")),
-        select.event.var.input(NS(id, "event.var")),
-        select.by.var.input(NS(id, "by.var")),
+        select_time.var.input(NS(id, "time.var")),
+        select_event.var.input(NS(id, "event.var")),
+        select_by.var.input(NS(id, "by.var")),
         checkboxInput(
           NS(id, "p.val"),
           label = "P-value",
@@ -40,9 +40,9 @@ kmUI <- function(id) {
 kmServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select x and by variables
-    time_var <- select.time.var.server("time.var", data_class, "numeric")
-    event_var <- select.event.var.server("event.var", data_class)
-    by_var <- select.by.var.server("by.var", data_class)
+    time_var <- select_time.var.server("time.var", data_class, "numeric")
+    event_var <- select_event.var.server("event.var", data_class)
+    by_var <- select_by.var.server("by.var", data_class)
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(time_var()), input$x_lab)

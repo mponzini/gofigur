@@ -3,8 +3,8 @@ barUI <- function(id) {
     "Barplot - Frequencies",
     sidebarLayout(
       sidebarPanel(
-        select.x.var.input(NS(id, "x.var")),
-        select.by.var.input(NS(id, "by.var")),
+        select_x.var.input(NS(id, "x.var")),
+        select_by.var.input(NS(id, "by.var")),
         labels_and_fonts("bar")
       ),
       mainPanel(
@@ -18,8 +18,8 @@ barUI <- function(id) {
 barServer <- function(id, data, data_class) {
   shiny::moduleServer(id, function(input, output, session) {
     # select x and by variables
-    x_var <- select.x.var.server("x.var", data_class)
-    by_var <- select.by.var.server("by.var", data_class)
+    x_var <- select_x.var.server("x.var", data_class)
+    by_var <- select_by.var.server("by.var", data_class)
     # Update axis labels
     x_label <- reactive({
       ifelse(input$x_lab == "", paste(x_var()), input$x_lab)

@@ -2,32 +2,32 @@
 # ui
 
 #' @export
-select.x.var.input <- function(id) {
+select_x.var.input <- function(id) {
   selectInput(NS(id, "x.var"), "X Variable", choices = NULL)
 }
 
 #' @export
-select.y.var.input <- function(id) {
+select_y.var.input <- function(id) {
   selectInput(NS(id, "y.var"), "Y Variable", choices = NULL)
 }
 
 #' @export
-select.by.var.input <- function(id) {
+select_by.var.input <- function(id) {
   selectInput(NS(id, "by.var"), "By Variable", choices = NULL)
 }
 
 #' @export
-select.time.var.input <- function(id) {
+select_time.var.input <- function(id) {
   selectInput(NS(id, "time.var"), "Time Variable", choices = NULL)
 }
 
 #' @export
-select.event.var.input <- function(id) {
+select_event.var.input <- function(id) {
   selectInput(NS(id, "event.var"), "Event Variable", choices = NULL)
 }
 # server
 #' @export
-select.x.var.server <- function(id, data_class, filter = c("character", "numeric")) {
+select_x.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data_class(), {
       updateSelectInput(
@@ -44,7 +44,7 @@ select.x.var.server <- function(id, data_class, filter = c("character", "numeric
 }
 
 #' @export
-select.y.var.server <- function(id, data_class, filter = c("character", "numeric")) {
+select_y.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data_class(), {
       updateSelectInput(
@@ -61,7 +61,7 @@ select.y.var.server <- function(id, data_class, filter = c("character", "numeric
 }
 
 #' @export
-select.by.var.server <- function(id, data_class, filter = c("character", "numeric")) {
+select_by.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data_class(), {
       updateSelectInput(
@@ -80,7 +80,7 @@ select.by.var.server <- function(id, data_class, filter = c("character", "numeri
 }
 
 #' @export
-select.time.var.server <- function(id, data_class, filter = c("character", "numeric")) {
+select_time.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data_class(), {
       updateSelectInput(
@@ -97,7 +97,7 @@ select.time.var.server <- function(id, data_class, filter = c("character", "nume
 }
 
 #' @export
-select.event.var.server <- function(id, data_class, filter = c("character", "numeric")) {
+select_event.var.server <- function(id, data_class, filter = c("character", "numeric")) {
   moduleServer(id, function(input, output, session) {
     observeEvent(data_class(), {
       updateSelectInput(
