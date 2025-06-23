@@ -45,7 +45,7 @@ importServer <- function(id) {
           ext,
           csv = read.csv(input$upload$datapath),
           xls = readxl::read_xls(input$upload$datapath, sheet = input$sheet),
-          xlsx = openxlsx::read.xlsx(input$upload$datapath, sheet = input$sheet),
+          xlsx = readxl::read_xlsx(input$upload$datapath, sheet = input$sheet), 
           sas7bdat = haven::read_sas(input$upload$datapath),
           sav = haven::read_spss(input$upload$datapath),
           dta = haven::read_dta(input$upload$datapath),
