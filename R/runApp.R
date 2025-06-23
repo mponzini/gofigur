@@ -2,7 +2,7 @@
 #' @export
 
 runGoFiguR <- function() {
-  appDir <- system.file("app", package = "gofigur")
+  appDir <- system.file("myapp", package = "gofigur")
   
   if (appDir == "") {
     stop("Could not find app. Try re-installing `gofigur`.", call. = FALSE)
