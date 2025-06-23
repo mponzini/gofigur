@@ -2,6 +2,7 @@
 
 export(FigureApp)
 export(downloadUI)
+export(runGoFiguR)
 export(select.by.var.input)
 export(select.by.var.server)
 export(select.event.var.input)

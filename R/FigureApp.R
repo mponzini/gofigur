@@ -15,10 +15,10 @@ FigureApp <- function(){
   
   ui <- shiny::navbarPage(
     # add favicon to browser tab
-    tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
-    # tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),
+    tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.png")),
+    # tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.ico")),
     # replace title with logo on navbar
-    title = div(img(src="CTSC_Data_Loofah_Icon.png",
+    title = div(img(src="Go FiguR Graphic v6.1.png",
                     width = "90px", height = "60px")),
     # title in browser tab
     windowTitle = "GoFiguR",
