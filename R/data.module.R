@@ -47,7 +47,7 @@ dataServer <- function(id, data) {
       if ((!is.null(data())) & all(class(data()) != "gg")) {
         data.frame(
           "Variable" = colnames(data()),
-          "Class" = sapply(1:ncol(data()), function(x){class(data()[[x]])})
+          "Class" = sapply(1:ncol(data()), function(x){class(data()[[x]])[1]})
         )
       } else if ((!is.null(data())) & any(class(data()) == "gg")) {
         data.frame(
