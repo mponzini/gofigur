@@ -8,7 +8,12 @@ importUI <- function(id) {
           ".csv", ".xlsx", ".xls", ".sas7bdat", ".sav", ".dta", ".rds"
         )
       ),
-      selectInput(NS(id, 'sheet'), "Choose Sheet",  NULL)
+      selectInput(NS(id, 'sheet'), "Choose Sheet",  NULL),
+      actionButton(
+        inputId = NS(id, "go"),
+        "Upload!",
+        icon = shiny::icon("file")
+      )
     )
   )
 }
@@ -18,7 +23,6 @@ importServer <- function(id) {
     # get sheet names
     sheetNames <- reactive({
       req(input$upload)
-      req(tools::file_ext(input$upload$name) %in% c("xls", "xlsx"))
       
       ext <- tools::file_ext(input$upload$name)
       if(ext == 'xls' | ext == "xlsx"){
@@ -28,7 +32,7 @@ importServer <- function(id) {
       }
     })
     
-    # update dropdown menu after data is imported
+    # update dropdown menu
     observe({
       updateSelectInput(
         session, "sheet", choices = sheetNames()
@@ -37,7 +41,7 @@ importServer <- function(id) {
     
     
     # import data using appropriate function
-    reactive({
+    eventReactive(input$go, {
       if((!is.null(input$upload)) && (input$sheet != "")){
         ext <- tools::file_ext(input$upload$name)
         # import data using appropriate function based on file type
