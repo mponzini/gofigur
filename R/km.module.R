@@ -95,6 +95,7 @@ kmServer <- function(id, data, data_class) {
     
     km_fit <- reactive({
       req(plot_data())
+      req(time_var() != event_var())
       
       if (by_var() == "No group") {
         survival::survfit(
