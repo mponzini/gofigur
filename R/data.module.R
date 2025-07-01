@@ -27,12 +27,12 @@ dataServer <- function(id, data) {
           Accepted file types are xls, xlsx",
           ", csv, R (rds), SAS (sas7bdat), Stata (dta), or SPSS (sav)."
         )
+      } else if ((!is.null(data())) & any(class(data()) == "gg")){
+        text <- paste0("The import is a {ggplot2} figure object.")
       } else if ((!is.null(data())) & nrow(data()) == 0 & all(class(data()) != "gg")) {
         text <- paste0(
           "The imported file is empty. Please choose another file/sheet."
         )
-      } else if ((!is.null(data())) & any(class(data()) == "gg")){
-        text <- paste0("The import is a {ggplot2} figure object.")
       } else if ((!is.null(data())) & all(class(data()) != "gg")) {
           text <- paste0(
             "The data has ", nrow(data()), " rows and ", ncol(data()),
