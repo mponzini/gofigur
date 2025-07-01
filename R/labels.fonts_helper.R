@@ -36,42 +36,42 @@ fonts <- function(id, by = by) {
         label = "X-axis Label Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "x_text_size"),
         label = "X-axis Text Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "y_lab_size"),
         label = "Y-axis Label Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "y_text_size"),
         label = "Y-axis Text Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "by_lab_size"),
         label = "Legend Label Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "by_text_size"),
         label = "Legend Text Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       )
     )
   } else {
@@ -81,28 +81,28 @@ fonts <- function(id, by = by) {
         label = "X-axis Label Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "x_text_size"),
         label = "X-axis Text Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "y_lab_size"),
         label = "Y-axis Label Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       ),
       numericInput(
         inputId = NS(id, "y_text_size"),
         label = "Y-axis Text Font Size",
         value = 14,
         min = 1,
-        step = 0.5
+        step = 1
       )
     )
   }

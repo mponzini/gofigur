@@ -119,7 +119,7 @@ kmServer <- function(id, data, data_class) {
     
     # plot
     plot <- reactive({
-      survminer::ggsurvplot(
+      tmp <- survminer::ggsurvplot(
         fit = km_fit(),
         data = plot_data(),
         # pval = input$p.val,
@@ -136,34 +136,21 @@ kmServer <- function(id, data, data_class) {
         font.y = input$y_lab_size,
         font.legend = input$by_lab_size
       )
-      # $plot +
-      #   ggplot2::labs(
-      #     x = x_label(),
-      #     y = y_label()
-      #   )
-      #   ggplot2::theme(
-      #     # x-axis
-      #     axis.title.x = ggtext::element_markdown(
-      #       size = input$x_lab_size
-      #     ),
-      #     axis.text.x = ggtext::element_markdown(
-      #       size = input$x_text_size
-      #     ),
-      #     # y-axis
-      #     axis.title.y = ggtext::element_markdown(
-      #       size = input$y_lab_size
-      #     ),
-      #     axis.text.y = ggtext::element_markdown(
-      #       size = input$y_text_size
-      #     ),
-      #     # legend
-      #     legend.title = ggtext::element_markdown(
-      #       size = input$by_lab_size
-      #     ),
-      #     legend.text = ggtext::element_markdown(
-      #       size = input$by_text_size
-      #     )
-      #   )
+      
+      tmp$plot <- tmp$plot +
+        ggplot2::theme(
+          axis.text.x = ggtext::element_markdown(
+            size = input$x_text_size
+          ),
+          axis.text.y = ggtext::element_markdown(
+            size = input$y_text_size
+          ),
+          legend.text = ggtext::element_markdown(
+            size = input$by_text_size
+          )
+        )
+      
+      tmp
     })
     
     output$km <- renderPlot({plot()})
