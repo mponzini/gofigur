@@ -68,29 +68,34 @@ ui <- navbarPage(
         ),
         
         h3("Instructions"),
-        
-        tags$ul(
-          tags$li("To import your data go to the ", tags$b("Data Import"),
-                  " tab and click ", tags$b("Browse"),
-                  " to select your data file. If your data is stored",
-                  " in an Excel file you can select the sheet to import from",
-                  " the ", tags$b("Sheet")," dropdown."),
-          tags$li("Once your data is imported, a summary sentence and table ",
-                  "will appear. The sentence summarizes the number of records",
-                  " and variables in the data file. The table shows each ",
-                  "variable in the data file and their class (",
-                  "how the data are stored). Check that the variables are stored",
-                  " as expected."),
-          tags$li("Select the ", tags$b("Figure"), "tab and then select the", 
-                  " tab corresponding to the type  of figure you'd like to ",
-                  "make."),
-          tags$li("Once you have selected the figure type, select the ", 
-                  "appropriate variables from the drop down menus and adjust",
-                  " the axis titles and font sizes as necessary."),
-          tags$li("When you are happy with the figure's appearance specify",
-                  " the filename, file type, set the dimensions, ",
-                  "specify the resolution (dpi), and hit download!"),
-          tags$li(tags$b("Note: this may be an iterative process!"))
+        column(
+          width = 6,
+          tags$ul(
+            tags$li("To import your data go to the ", tags$b("Data Import"),
+                    " tab and click ", tags$b("Browse"),
+                    " to select your data file. If your data is stored",
+                    " in an Excel file you can select the sheet to import from",
+                    " the ", tags$b("Sheet")," dropdown."),
+            tags$li("Click the ", tags$b('Upload!'),
+                    " button after you have selected the",
+                    " file/sheet that you want to import."),
+            tags$li("Once your data is imported, a summary sentence and table ",
+                    "will appear. The sentence summarizes the number of records",
+                    " and variables in the data file. The table shows each ",
+                    "variable in the data file and their class (",
+                    "how the data are stored). Check that the variables are stored",
+                    " as expected."),
+            tags$li("Select the ", tags$b("Figure"), "tab and then select the", 
+                    " tab corresponding to the type  of figure you'd like to ",
+                    "make."),
+            tags$li("Once you have selected the figure type, select the ", 
+                    "appropriate variables from the drop down menus and adjust",
+                    " the axis titles and font sizes as necessary."),
+            tags$li("When you are happy with the figure's appearance specify",
+                    " the filename, file type, set the dimensions, ",
+                    "specify the resolution (dpi), and hit download!"),
+            tags$li(tags$b("Note: this may be an iterative process!"))
+          )
         )
       )
     )
