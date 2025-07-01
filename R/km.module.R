@@ -83,6 +83,8 @@ kmServer <- function(id, data, data_class) {
     
     
     by_levels <- reactive({
+      req(by_var())
+      
       if (input$by.levels == "") {
         levels(plot_data()[[by_var()]])
       } else {
@@ -94,14 +96,21 @@ kmServer <- function(id, data, data_class) {
     km_fit <- reactive({
       req(plot_data())
       
-      survival::survfit(
-        survival::Surv(plot_data()[[time_var()]], plot_data()[[event_var()]]) ~ 
-          plot_data()[[by_var()]]
-      )
+      if (by_var() == "No group") {
+        survival::survfit(
+          survival::Surv(plot_data()[[time_var()]], plot_data()[[event_var()]]) ~ 
+            1
+        )
+      } else {
+        survival::survfit(
+          survival::Surv(plot_data()[[time_var()]], plot_data()[[event_var()]]) ~ 
+            plot_data()[[by_var()]]
+        )
+      }
     })
     
     tmp_p <- reactive({
-      if (input$p.val) {
+      if (input$p.val & by_var() != "No group") {
         paste0(
           "p = ",
           survival::survdiff(
