@@ -19,8 +19,8 @@ options(
 
 ui <- navbarPage(
   # add favicon to browser tab
-  # tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.png")),
-  tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.ico")),
+  tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.png")),
+  # tags$head(tags$link(rel="shortcut icon", href="go figur 64mp.ico")),
   # replace title with logo on navbar
   title = div(img(src="Go FiguR.png",
                   width = "90px", height = "60px")),
